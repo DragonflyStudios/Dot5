@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">.5</string>
+
+    <string name="everyday">Everyday</string>
+    <string name="some_days">Some Days</string>
+    <string name="weekdays">Weekdays</string>
+    <string name="weekends">Weekends</string>
+
+    <string name="Monday">Monday</string>
+    <string name="Tuesday">Tuesday</string>
+    <string name="Wednesday">Wednesday</string>
+    <string name="Thursday">Thursday</string>
+    <string name="Friday">Friday</string>
+    <string name="Saturday">Saturday</string>
+    <string name="Sunday">Sunday</string>
+            
+    <string name="same_time">Same Time</string>
+    <string name="same_length">Same Length</string>
+
+</resources>
