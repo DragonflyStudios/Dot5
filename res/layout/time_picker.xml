@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<TimePicker xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/time_picker"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:background="#000066"
-    android:visibility="invisible" />
