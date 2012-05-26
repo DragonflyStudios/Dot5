@@ -14,17 +14,24 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.TimePicker.OnTimeChangedListener;
+import ca.turix.utils.TimeFormatter;
+import ca.turix.widgets.TimePickerPopup;
 
-// TODO: change this to use R.string values for the various lists
+// TODO: static methods for
+//       2. converting string to time of day in minutes
+//       4. converting string to length
 
-public class TimeActivity extends Activity {
+// TODO: Content provider for Dot5Activity
+//       1. data protocol
+//       2. implementation
+
+public class TimeActivity extends Activity implements OnTimeChangedListener {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class TimeActivity extends Activity {
         m_setOfDaysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         m_setOfDaysSpinner = (Spinner)findViewById(R.id.set_of_days);
         m_setOfDaysSpinner.setAdapter(m_setOfDaysAdapter);
-        m_setOfDaysSpinner.setOnItemSelectedListener(new SetOfDaysOnItemSelectedListener());
+        m_setOfDaysSpinner.setOnItemSelectedListener(new SetOfDaysSpinnerOnItemSelectedListener());
 
         m_daysAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,
                 stringsFromStringIds(DAYS_STRING_IDS));
@@ -52,9 +59,6 @@ public class TimeActivity extends Activity {
         m_daysView.setAdapter(m_daysAdapter);
         m_daysView.setOnItemClickListener(new DaysOnItemClickListener());
 
-        // TODO: the code for Time and Length is pretty much identical.
-        //       refactor!
-        
         m_sameTimeCheckBox = (CheckBox)findViewById(R.id.same_time);
         m_sameTimeCheckBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             public void onCheckedChanged (CompoundButton buttonView, boolean isChecked)
@@ -73,19 +77,24 @@ public class TimeActivity extends Activity {
             "01:23am", "01:23am", "01:23am", "01:23am", 
             "01:23am", "01:23am", "01:23am"
         };
+        m_times = new String[7];
+        String defaultTimeString = TimeFormatter.timeOfDayString(getResources().getInteger(R.integer.defaultTimeOfDay));
+        for (int i = 0; i < 7; i++)
+            m_times[i] = defaultTimeString;
         m_timesAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_times);
         m_timesView = (ListView)findViewById(R.id.times);
         m_timesView.setItemsCanFocus(false);
         m_timesView.setAdapter(m_timesAdapter);
         m_timesView.setOnItemClickListener(new TimesOnItemClickListener());
-        m_timePicker = (TimePicker)findViewById(R.id.time_picker);
-        m_pickTimeItemPosition = -1;
 
+        m_sameTime = getResources().getInteger(R.integer.defaultTimeOfDay);
+        m_timePickerItemPosition = -1;
+        m_timePickerPopup = new TimePickerPopup(m_timeView, m_sameTime, false, this);
         m_sameTimeDisplay = (TextView)findViewById(R.id.same_time_display);
-        m_sameTimeDisplay.setText(SAME_TIME_DEFAULT);
+        m_sameTimeDisplay.setText(TimeFormatter.timeOfDayString(m_sameTime));
         m_sameTimeDisplay.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                m_timePicker.setVisibility(View.VISIBLE);
+                m_timePickerPopup.show();
             }
         });
         
@@ -94,19 +103,27 @@ public class TimeActivity extends Activity {
             public void onCheckedChanged (CompoundButton buttonView, boolean isChecked)
             {
                 if (isChecked) {
-                    m_chooseLengthSpinner.setVisibility(View.VISIBLE);
+                    m_lengthSpinner.setVisibility(View.VISIBLE);
                     m_lengthsView.setVisibility(View.INVISIBLE);
+                    m_timePickerItemPosition = -1;
                 } else {
-                    m_chooseLengthSpinner.setVisibility(View.INVISIBLE);
+                    m_lengthSpinner.setVisibility(View.INVISIBLE);
                     m_lengthsView.setVisibility(View.VISIBLE);
                 }
             }
         });
         
-        m_lengths = new String[] {
-            "30 mins", "30 mins", "30 mins", "30 mins", 
-            "30 mins", "30 mins", "30 mins"
-        };
+        int[] lengthChoiceInts = getResources().getIntArray(R.array.lengthChoices);
+        int count = lengthChoiceInts.length;
+        String negativeString = getString(R.string.heartsContent);
+        m_lengthChoices = new String[count];
+        for (int i = 0; i < count; i++)
+            m_lengthChoices[i] = TimeFormatter.lengthInMinutesString(lengthChoiceInts[i], negativeString);
+        m_lengths = new String[7];
+        String defaultLengthString = TimeFormatter.lengthInMinutesString(getResources().getInteger(R.integer.defaultLength), negativeString);
+        for (int i = 0; i < 7; i++)
+            m_lengths[i] = defaultLengthString;
+        
         m_lengthsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, m_lengths);
         m_lengthsView = (ListView)findViewById(R.id.lengths);
         m_lengthsView.setItemsCanFocus(false);
@@ -114,13 +131,13 @@ public class TimeActivity extends Activity {
         m_lengthsView.setOnItemClickListener(new LengthsOnItemClickListener());
 
         m_chooseLengthAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                LENGTH_CHOICES);
+                m_lengthChoices);
         m_chooseLengthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        m_chooseLengthSpinner = (Spinner)findViewById(R.id.choose_length);
-        m_chooseLengthSpinner.setAdapter(m_chooseLengthAdapter);
-        m_chooseLengthSpinner.setOnItemSelectedListener(new ChooseLengthOnItemSelectedListener());
-        m_chooseLengthSpinner.setSelection(3); // 3 == 30 minutes
-        m_chooseLengthItemPosition = -1;
+        m_lengthSpinner = (Spinner)findViewById(R.id.choose_length);
+        m_lengthSpinner.setAdapter(m_chooseLengthAdapter);
+        m_lengthSpinner.setOnItemSelectedListener(new LengthSpinnerOnItemSelectedListener());
+        m_lengthSpinner.setSelection(3); // 3 == 30 minutes
+        m_lengthSpinnerItemPosition = -1;
 
     }
 
@@ -147,19 +164,7 @@ public class TimeActivity extends Activity {
         R.string.Saturday, R.string.Sunday
     };
 
-    private static final String[] TIME_CHOICES = new String[] {
-        "1:00am", "2:00am", "11:59pm", "3:00am", 
-        "23:45am", "no such time", "25:01"
-    };
-
-    // TODO: define this as a string array
-    //       use ALT values (or equivalent) for the numerical values
-    private static final String[] LENGTH_CHOICES = new String[] {
-        "10 mins", "15 mins", "20 mins", "30 mins", "45 mins", "60 mins", "heart's content"
-    };
-    
-    private static final String SAME_TIME_DEFAULT = "01:23am";
-
+    private String[] m_lengthChoices;
     private RelativeLayout m_timeView;
     
     private Spinner m_setOfDaysSpinner;
@@ -169,21 +174,23 @@ public class TimeActivity extends Activity {
     
     private CheckBox m_sameTimeCheckBox;
     private String[] m_times;
+    private int[] m_timesInMinutes;
     private ArrayAdapter<String> m_timesAdapter;
     private ListView m_timesView;
+    private TimePickerPopup m_timePickerPopup;
+    private int m_timePickerItemPosition;
     private TextView m_sameTimeDisplay;
-    private TimePicker m_timePicker;
-    private int m_pickTimeItemPosition;
+    private int m_sameTime;
 
     private CheckBox m_sameLengthCheckBox;
     private String[] m_lengths;
     private ArrayAdapter<String> m_lengthsAdapter;
     private ListView m_lengthsView;
-    private Spinner m_chooseLengthSpinner;
+    private Spinner m_lengthSpinner;
     private ArrayAdapter<String> m_chooseLengthAdapter;
-    private int m_chooseLengthItemPosition;
+    private int m_lengthSpinnerItemPosition;
     
-    public class SetOfDaysOnItemSelectedListener implements OnItemSelectedListener
+    public class SetOfDaysSpinnerOnItemSelectedListener implements OnItemSelectedListener
     {
 
         @Override
@@ -214,7 +221,7 @@ public class TimeActivity extends Activity {
         }
 
         @Override
-        public void onNothingSelected(AdapterView parent) { }
+        public void onNothingSelected(AdapterView<?> parent) { }
     }
 
     public class DaysOnItemClickListener implements OnItemClickListener
@@ -248,45 +255,48 @@ public class TimeActivity extends Activity {
         @Override
         public void onItemClick (AdapterView<?> parent, View view, int position, long id)
         {
-            m_pickTimeItemPosition = position;
-            m_timesView.setVisibility(View.INVISIBLE);
-            m_sameTimeDisplay.setVisibility(View.VISIBLE);
+            m_timePickerItemPosition = position;
+            m_timePickerPopup.setTime(m_times[m_timePickerItemPosition]);
+            m_timePickerPopup.show();
         }
     }
 
-    
     public class LengthsOnItemClickListener implements OnItemClickListener
     {
         @Override
         public void onItemClick (AdapterView<?> parent, View view, int position, long id)
         {
-            m_chooseLengthItemPosition = position;
-            m_chooseLengthSpinner.performClick();
+            m_lengthSpinnerItemPosition = position;
+            m_lengthSpinner.performClick();
         }
     }
     
-    public class ChooseLengthOnItemSelectedListener implements OnItemSelectedListener
+    public class LengthSpinnerOnItemSelectedListener implements OnItemSelectedListener
     {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             // get text and set the item in lengths to the text
-            if (m_chooseLengthItemPosition != -1) {
-                m_lengths[m_chooseLengthItemPosition] = LENGTH_CHOICES[pos];
+            if (m_lengthSpinnerItemPosition != -1) {
+                m_lengths[m_lengthSpinnerItemPosition] = m_lengthChoices[pos];
                 m_lengthsAdapter.notifyDataSetChanged();
-                m_chooseLengthItemPosition = -1;
+                m_lengthSpinnerItemPosition = -1;
             }
         }
 
-        public void onNothingSelected(AdapterView parent) { }
+        public void onNothingSelected(AdapterView<?> parent) { }
     }
-    
-    
+
+    @Override
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute)
+    {
+        if (m_timePickerItemPosition != -1) {
+            m_times[m_timePickerItemPosition] = TimeFormatter.timeOfDayString(hourOfDay, minute);
+            m_timesAdapter.notifyDataSetChanged();
+        } else {
+            m_sameTime = TimeFormatter.timeOfDayInMinutes(hourOfDay, minute);
+            m_sameTimeDisplay.setText(TimeFormatter.timeOfDayString(m_sameTime));
+        }
+    }
+
 }
-
-
-
-/* TODO
- * [ ] Use TimePicker
- * [ ] Content provider for Dot5Activity
- */
