@@ -100,16 +100,18 @@ public class TimeActivity extends Activity implements OnTimeChangedListener {
             public void onCheckedChanged (CompoundButton buttonView, boolean isChecked)
             {
                 if (isChecked) {
-                    m_timePickerItemPosition = -1;
+                    m_lengthsView.setVisibility(View.INVISIBLE);
+                    m_isSelectingForSameLength = true;
                     m_lengthSpinner.setSelection(m_sameLengthSelection);
                     m_lengthSpinner.setVisibility(View.VISIBLE);
-                    m_lengthsView.setVisibility(View.INVISIBLE);
                 } else {
+                    m_isSelectingForSameLength = false;
                     m_lengthSpinner.setVisibility(View.INVISIBLE);
                     m_lengthsView.setVisibility(View.VISIBLE);
                 }
             }
         });
+        m_isSelectingForSameLength = true; // default
         
         int[] lengthChoicesInMinutes = getResources().getIntArray(R.array.lengthOptions);
         int count = lengthChoicesInMinutes.length;
@@ -138,7 +140,7 @@ public class TimeActivity extends Activity implements OnTimeChangedListener {
         m_lengthSpinner.setAdapter(m_chooseLengthAdapter);
         m_lengthSpinner.setOnItemSelectedListener(new LengthSpinnerOnItemSelectedListener());
         m_lengthSpinner.setSelection(defaultLengthIndex);
-        m_lengthSpinnerItemPosition = -1;
+        m_lengthSelectionsItemPosition = -1;
     }
 
     private final static int[] DAYSETS_STRING_IDS = new int[] {
@@ -170,7 +172,8 @@ public class TimeActivity extends Activity implements OnTimeChangedListener {
     private ListView m_lengthsView;
     private Spinner m_lengthSpinner;
     private ArrayAdapter<LengthOfTime> m_chooseLengthAdapter;
-    private int m_lengthSpinnerItemPosition;
+    private int m_lengthSelectionsItemPosition;
+    private boolean m_isSelectingForSameLength;
     
     public class SetOfDaysSpinnerOnItemSelectedListener implements OnItemSelectedListener
     {
@@ -249,7 +252,7 @@ public class TimeActivity extends Activity implements OnTimeChangedListener {
         public void onItemClick (AdapterView<?> parent, View view, int position, long id)
         {
             m_lengthSpinner.setSelection(m_lengthSelections[position]);
-            m_lengthSpinnerItemPosition = position;
+            m_lengthSelectionsItemPosition = position;
             m_lengthSpinner.performClick();
         }
     }
@@ -259,12 +262,12 @@ public class TimeActivity extends Activity implements OnTimeChangedListener {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
-            if (m_lengthSpinnerItemPosition != -1) {
-                m_lengthSelections[m_lengthSpinnerItemPosition] = pos;
-                m_selectedLengths[m_lengthSpinnerItemPosition] = m_lengthOptions[pos];
-                m_lengthsAdapter.notifyDataSetChanged();
-            } else {
+            if (m_isSelectingForSameLength) {
                 m_sameLengthSelection = pos;
+            } else {
+                m_lengthSelections[m_lengthSelectionsItemPosition] = pos;
+                m_selectedLengths[m_lengthSelectionsItemPosition] = m_lengthOptions[pos];
+                m_lengthsAdapter.notifyDataSetChanged();
             }
         }
 
