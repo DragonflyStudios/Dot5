@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <integer name="defaultTimeOfDay">480</integer>
+    <integer-array name="lengthOptions">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>-1</item> <!-- heart's content -->
+    </integer-array>
+    <integer name="defaultLengthIndex">3</integer> <!-- the 3rd one in the array id 30 mins -->
+</resources>

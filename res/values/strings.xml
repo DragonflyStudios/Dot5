@@ -6,7 +6,13 @@
     <string name="some_days">Some Days</string>
     <string name="weekdays">Weekdays</string>
     <string name="weekends">Weekends</string>
-
+    <string-array name="day_sets">
+        <item>@string/everyday</item>
+        <item>@string/some_days</item>
+        <item>@string/weekdays</item>
+        <item>@string/weekends</item>
+    </string-array>
+    
     <string name="Monday">Monday</string>
     <string name="Tuesday">Tuesday</string>
     <string name="Wednesday">Wednesday</string>
@@ -14,7 +20,16 @@
     <string name="Friday">Friday</string>
     <string name="Saturday">Saturday</string>
     <string name="Sunday">Sunday</string>
-            
+    <string-array name="days">
+        <item>@string/Monday</item>
+        <item>@string/Tuesday</item>
+        <item>@string/Wednesday</item>
+        <item>@string/Thursday</item>
+        <item>@string/Friday</item>
+        <item>@string/Saturday</item>
+        <item>@string/Sunday</item>
+    </string-array>
+
     <string name="same_time">Same Time</string>
     <string name="same_length">Same Length</string>
 
