@@ -1,0 +1,51 @@
+- Dot5  activity -- the main activity of the app
+
+-- Present according to a grammar the text pieces through D5TextView the argument and time & day settings for the chosen Dot5 activity 
+-- Choose/switch D5Act             ... => D5Choose - default
+-- Choose time and day             ... => D5Time   - default
+-- Configure the selected activity ... => D5Config - custom
+-- Launch activity                 ... => D5Act    - custom
+-- Launch other app                ... => ... protocol for specifying app and arguments
+
+
+~~~
+
+
+- D5Setup extends Activity implements D5Setting (better name?)
+
+-- instance of it would correspond to text pieces backed by D5TextView
+-- an abstract class with specific interface method(s) for setting results
+--- may also need an auxiliary class (inner class of D5Setup) for wrapping the results
+-- a D5Setup subclass should deal with its own data persistence
+
+-- D5Time
+--- extends D5Setup
+--- Configure time ... arguments for alarm clock
+--- Returns an update string-activity pair for display in Dot5 activity
+--- No direct interaction with D5Act
+
+-- D5Choose extends D5Setup
+--- If there are no alternative activity, then "untouchable" (i.e. no UI for choosing)
+--- Is it possible to get information from the manifest and auto populate the list of supported Dot 5 activities?
+--- No direct interaction with D5Act
+
+
+-- D5Config
+--- extends D5Setup
+--- Configure activity ... arguments for either D5Act or other app
+--- Returns an updated string-activity pair for display in Dot5 activity
+--- Data sharing with D5Act is completely open
+
+
+~~~
+
+
+- D5Act
+-- The Android activity doing of it ...
+--- Potentially does nothing more than launching a third party app: specifying arguments for other apps
+
+-- To implement support for a Dot5 activity
+-- extend D5Config to implement configuration of the acitivity
+-- extend the Dot5Act abstract class to be launched by "do it now" or by alarm clock
+-- Data sharing between D5Act and D5Config is completely open
+

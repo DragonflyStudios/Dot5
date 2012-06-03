@@ -12,12 +12,14 @@ import android.widget.TextView;
 
 public class Dot5TextView extends TextView implements OnTouchListener {
     
-    public Dot5TextView(Context context, String text, Class<? extends Activity> activityClass)
+    public Dot5TextView(Activity hostActivity, String text, Class<? extends D5Activity> d5activityClass)
     {
-        super(context);
+        super(hostActivity);
         
-        if (activityClass != null) {
-            m_intent = new Intent(context, activityClass);
+        m_hostActivity = hostActivity;
+        
+        if (d5activityClass != null) {
+            m_intent = new Intent(hostActivity, d5activityClass);
             setOnTouchListener(this);
 
             SpannableString content = new SpannableString(text);
@@ -32,7 +34,7 @@ public class Dot5TextView extends TextView implements OnTouchListener {
     {
         if (null != m_intent && view == this && 0 != (MotionEvent.ACTION_UP | event.getAction()))
         {
-            getContext().startActivity(m_intent);
+            m_hostActivity.startActivityForResult(m_intent, m_intent.);
             return true;
         }
         
@@ -40,4 +42,5 @@ public class Dot5TextView extends TextView implements OnTouchListener {
     }
     
     Intent m_intent;
+    Activity m_hostActivity;
 }

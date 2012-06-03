@@ -1,5 +1,6 @@
 package ca.turix.dot5;
 
+import ca.turix.dot5.read.D5ReadBookActivity;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -12,18 +13,18 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-public class Dot5Activity extends Activity {
+public class Dot5 extends Activity {
 
     private final static Object[][] Dot5Pairs = {
         { "I am to read", null },
-        { "The Grapes of Wrath", BookActivity.class },
+        { "The Grapes of Wrath", D5ReadBookActivity.class },
         { "by", null },
-        { "John Steinbeck", BookActivity.class },
-        { "everyday", TimeActivity.class },
+        { "John Steinbeck", D5ReadBookActivity.class },
+        { "everyday", D5TimeActivity.class },
         { "at", null },
-        { "10:30pm", TimeActivity.class },
+        { "10:30pm", D5TimeActivity.class },
         { "for", null },
-        { "30 minutes", TimeActivity.class },
+        { "30 minutes", D5TimeActivity.class },
         { ".", null }
     };
     
@@ -62,7 +63,7 @@ public class Dot5Activity extends Activity {
         
         for(int i = 0; i < size; i++) {
             Dot5TextView d5tv = new Dot5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends Activity>)Dot5Pairs[i][1]);
-            d5tv.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);            
+            d5tv.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             boxWidths[i] = d5tv.getMeasuredWidth();
             d5tvs[i] = d5tv;
         }
@@ -96,7 +97,7 @@ public class Dot5Activity extends Activity {
 
 /* TODO:
    [x] move this out of the Eclipse workspace
-   [ ] check this into GitHub ...
+   [x] check this into GitHub ...
    [x] design an "EveryView" extends TextView
        [x] text is styled
        [x] an EveryView may have an action -- starting another activity
@@ -104,9 +105,9 @@ public class Dot5Activity extends Activity {
            [x] book activity etc ...
        [x] text with action is further underlined
    [x] design a Layout for laying out a sequence of EveryViews ...
-   [ ] time activity
+   [x] time activity
+   [ ] develop a content sharing protocol across the activities
    [ ] book activity
    [ ] develop an XML schema specifying the "sentence"
-   [ ] develop a content sharing protocol across the activities
    [ ] raised background with shadows (see exhibits)
 */

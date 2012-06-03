@@ -1,12 +1,13 @@
-package ca.turix.dot5;
+package ca.turix.dot5.read;
 
 import ca.turix.dot5.R;
+import ca.turix.dot5.R.layout;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class BookActivity extends Activity {
+public class D5ReadBookActivity extends Activity {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -30,7 +30,7 @@ import ca.turix.widgets.TimePickerPopup;
 //       1. data protocol
 //       2. implementation
 
-public class TimeActivity extends Activity implements OnTimeChangedListener {
+public class D5TimeActivity extends Activity implements OnTimeChangedListener {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
