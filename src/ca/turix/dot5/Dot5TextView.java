@@ -34,7 +34,7 @@ public class Dot5TextView extends TextView implements OnTouchListener {
     {
         if (null != m_intent && view == this && 0 != (MotionEvent.ACTION_UP | event.getAction()))
         {
-            m_hostActivity.startActivityForResult(m_intent, m_intent.);
+            m_hostActivity.startActivity(m_intent);
             return true;
         }
         

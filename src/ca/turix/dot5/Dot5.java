@@ -1,6 +1,5 @@
 package ca.turix.dot5;
 
-import ca.turix.dot5.read.D5ReadBookActivity;
 import android.app.Activity;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import ca.turix.dot5.read.D5ReadBookActivity;
 
 public class Dot5 extends Activity {
 
@@ -62,7 +62,7 @@ public class Dot5 extends Activity {
         Dot5TextView[] d5tvs = new Dot5TextView[size];
         
         for(int i = 0; i < size; i++) {
-            Dot5TextView d5tv = new Dot5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends Activity>)Dot5Pairs[i][1]);
+            Dot5TextView d5tv = new Dot5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends D5Activity>)Dot5Pairs[i][1]);
             d5tv.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             boxWidths[i] = d5tv.getMeasuredWidth();
             d5tvs[i] = d5tv;
