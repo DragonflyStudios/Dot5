@@ -1,7 +1,6 @@
-package ca.turix.dot5;
+package ca.turix.dot5.kernel;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
@@ -10,9 +9,9 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.TextView;
 
-public class Dot5TextView extends TextView implements OnTouchListener {
+public class D5TextView extends TextView implements OnTouchListener {
     
-    public Dot5TextView(Activity hostActivity, String text, Class<? extends D5Activity> d5activityClass)
+    public D5TextView(Activity hostActivity, String text, Class<? extends D5Activity> d5activityClass)
     {
         super(hostActivity);
         
@@ -32,13 +31,10 @@ public class Dot5TextView extends TextView implements OnTouchListener {
     @Override
     public boolean onTouch(View view, MotionEvent event)
     {
-        if (null != m_intent && view == this && 0 != (MotionEvent.ACTION_UP | event.getAction()))
-        {
+        if (null != m_intent  &&  view == this  &&  0 != (MotionEvent.ACTION_UP & event.getAction()))
             m_hostActivity.startActivity(m_intent);
-            return true;
-        }
         
-        return false;
+        return true;
     }
     
     Intent m_intent;

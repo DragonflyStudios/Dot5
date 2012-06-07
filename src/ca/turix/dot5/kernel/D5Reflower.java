@@ -1,13 +1,13 @@
-package ca.turix.dot5;
+package ca.turix.dot5.kernel;
 
 import android.graphics.Point;
 
-public class Reflower {
+public class D5Reflower {
     public static final int DEFAULT_MARGIN = 24;
-    public static final int DEFAULT_SPACE_WIDTH = 6;
+    public static final int DEFAULT_SPACE_WIDTH = 8;
     public static final int DEFAULT_LINE_SPACE = 24;
 
-    public Reflower(int screenWidth, int screenHeight, int lineHeight, int spaceWidth)
+    public D5Reflower(int screenWidth, int screenHeight, int lineHeight, int spaceWidth)
     {
         m_screenWidth = screenWidth;
         m_screenHeight = screenHeight;

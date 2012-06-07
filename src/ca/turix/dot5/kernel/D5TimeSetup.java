@@ -1,4 +1,4 @@
-package ca.turix.dot5;
+package ca.turix.dot5.kernel;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,6 +20,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
+import ca.turix.dot5.R;
+import ca.turix.dot5.R.array;
+import ca.turix.dot5.R.id;
+import ca.turix.dot5.R.integer;
+import ca.turix.dot5.R.layout;
+import ca.turix.dot5.R.string;
 import ca.turix.utils.time.LengthOfTime;
 import ca.turix.utils.time.TimeOfDay;
 import ca.turix.widgets.TimePickerPopup;
@@ -30,7 +36,7 @@ import ca.turix.widgets.TimePickerPopup;
 //       1. data protocol
 //       2. implementation
 
-public class D5TimeActivity extends Activity implements OnTimeChangedListener {
+public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
     
     @Override
     public void onCreate(Bundle savedInstanceState) {

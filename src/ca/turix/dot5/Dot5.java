@@ -11,20 +11,26 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import ca.turix.dot5.read.D5ReadBookActivity;
+import ca.turix.dot5.kernel.D5Activity;
+import ca.turix.dot5.kernel.D5Reflower;
+import ca.turix.dot5.kernel.D5Setup;
+import ca.turix.dot5.kernel.D5TextView;
+import ca.turix.dot5.kernel.D5TimeSetup;
+import ca.turix.dot5.read.D5ReadAct;
+import ca.turix.dot5.read.D5ReadSetup;
 
 public class Dot5 extends Activity {
 
     private final static Object[][] Dot5Pairs = {
         { "I am to read", null },
-        { "The Grapes of Wrath", D5ReadBookActivity.class },
+        { "The Grapes of Wrath", D5ReadSetup.class },
         { "by", null },
-        { "John Steinbeck", D5ReadBookActivity.class },
-        { "everyday", D5TimeActivity.class },
+        { "John Steinbeck", D5ReadSetup.class },
+        { "everyday", D5TimeSetup.class },
         { "at", null },
-        { "10:30pm", D5TimeActivity.class },
+        { "10:30pm", D5TimeSetup.class },
         { "for", null },
-        { "30 minutes", D5TimeActivity.class },
+        { "30 minutes", D5TimeSetup.class },
         { ".", null }
     };
     
@@ -45,31 +51,31 @@ public class Dot5 extends Activity {
         Log.d("metrics height", " = " + metrics.heightPixels);
         Log.d("metrics width", " = " + metrics.widthPixels);
 
-        Dot5TextView d5tvSpace = new Dot5TextView(this, " ", null);
+        D5TextView d5tvSpace = new D5TextView(this, " ", null);
         d5tvSpace.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         int spaceWidth = d5tvSpace.getMeasuredWidth();
 
-        Dot5TextView d5tvfp = new Dot5TextView(this, "fp", null);
+        D5TextView d5tvfp = new D5TextView(this, "fp", null);
         d5tvfp.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         int lineHeight = d5tvfp.getMeasuredWidth();
         Log.d("spaceWidth", " = " + spaceWidth);
         Log.d("lineHeight", " = " + lineHeight);
                 
-        m_reflower = new Reflower(metrics.widthPixels, metrics.heightPixels, lineHeight, spaceWidth);
+        m_reflower = new D5Reflower(metrics.widthPixels, metrics.heightPixels, lineHeight, spaceWidth);
 
         int size = Dot5Pairs.length;
         int[] boxWidths = new int[size];
-        Dot5TextView[] d5tvs = new Dot5TextView[size];
+        D5TextView[] d5tvs = new D5TextView[size];
         
         for(int i = 0; i < size; i++) {
-            Dot5TextView d5tv = new Dot5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends D5Activity>)Dot5Pairs[i][1]);
+            D5TextView d5tv = new D5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends D5Setup>)Dot5Pairs[i][1]);
             d5tv.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             boxWidths[i] = d5tv.getMeasuredWidth();
             d5tvs[i] = d5tv;
         }
         
         Point[] coordinates = m_reflower.reflow(boxWidths);
-
+        
         for (int i = 0; i < size; i++) {
             int left = coordinates[i].x;
             int top = coordinates[i].y;
@@ -84,6 +90,12 @@ public class Dot5 extends Activity {
             frameParams.gravity = Gravity.TOP;
             m_mainView.addView(d5tvs[i], frameParams);
         }
+        
+        int startNowButtonY = coordinates[size-1].y + lineHeight * 9;
+        D5TextView startNowButton = new D5TextView(this, getResources().getString(R.string.start_now), (Class<? extends D5Activity>)D5ReadAct.class);
+        FrameLayout.LayoutParams buttonLayout = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
+        buttonLayout.topMargin = startNowButtonY;
+        m_mainView.addView(startNowButton, buttonLayout);
     }
     
     @Override
@@ -92,7 +104,7 @@ public class Dot5 extends Activity {
     }
         
     FrameLayout m_mainView;
-    Reflower m_reflower;
+    D5Reflower m_reflower;
 }
 
 /* TODO:

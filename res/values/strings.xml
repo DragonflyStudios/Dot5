@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">.5</string>
-
+    
+    <string name="start_now">Start Now</string>
+    
     <string name="everyday">Everyday</string>
     <string name="some_days">Some Days</string>
     <string name="weekdays">Weekdays</string>

@@ -1,4 +1,4 @@
-package ca.turix.dot5;
+package ca.turix.dot5.kernel;
 
 import android.app.Activity;
 
