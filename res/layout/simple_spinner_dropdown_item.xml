@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android" 
+    android:id="@android:id/text1"
+    style="@style/D5SpinnerDropDownItemStyle"
+    android:singleLine="true"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/d5listItemHeight"
+    android:ellipsize="marquee" />

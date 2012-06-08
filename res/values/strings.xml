@@ -4,12 +4,12 @@
     
     <string name="start_now">Start Now</string>
     
-    <string name="everyday">Everyday</string>
-    <string name="some_days">Some Days</string>
+    <string name="every_day">Every day</string>
+    <string name="some_days">Some days</string>
     <string name="weekdays">Weekdays</string>
     <string name="weekends">Weekends</string>
     <string-array name="day_sets">
-        <item>@string/everyday</item>
+        <item>@string/every_day</item>
         <item>@string/some_days</item>
         <item>@string/weekdays</item>
         <item>@string/weekends</item>

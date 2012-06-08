@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <dimen name="d5text_size">9sp</dimen>
+    <dimen name="d5text_size_list_item">11sp</dimen>
+    <dimen name="d5listItemHeight">36dip</dimen>
+    
+    <dimen name="d5time_paddingVertical">6dip</dimen>
+    <dimen name="d5time_paddingHorizontal">6dip</dimen>
+    <dimen name="d5time_middleColumnMargin">80dip</dimen>
+    <dimen name="d5time_headerBottomMargin">10dip</dimen>
+    <dimen name="d5time_elementWidth">120dip</dimen>
+</resources>

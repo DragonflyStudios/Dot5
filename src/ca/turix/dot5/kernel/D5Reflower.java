@@ -28,7 +28,7 @@ public class D5Reflower {
     private void addBox(int index, int boxWidth)
     {
         if (index == 0) {
-            m_currentLineY = (m_screenHeight - m_lineHeight) / 2;
+            m_currentLineY = m_screenHeight / 2 - 2 * m_lineHeight;
             startNewLine(index, boxWidth);
         } else if (overflows(boxWidth)) {
             bumpUpOldLines(index);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <style name="D5TextAppearanceListItem" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/d5text_size_list_item</item>
+    </style>
+    
+    <style name="D5SpinnerDropDownItemStyle" parent="@android:style/Widget.DropDownItem.Spinner">
+        <item name="android:textSize">@dimen/d5text_size_list_item</item>
+    </style>
+
+    <style name="D5SpinnerItemStyle" parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">@dimen/d5text_size_list_item</item>
+    </style>
+</resources>

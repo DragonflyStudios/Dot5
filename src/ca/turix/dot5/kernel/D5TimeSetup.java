@@ -1,6 +1,6 @@
 package ca.turix.dot5.kernel;
 
-import android.app.Activity;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -21,22 +21,21 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 import ca.turix.dot5.R;
-import ca.turix.dot5.R.array;
-import ca.turix.dot5.R.id;
-import ca.turix.dot5.R.integer;
-import ca.turix.dot5.R.layout;
-import ca.turix.dot5.R.string;
 import ca.turix.utils.time.LengthOfTime;
 import ca.turix.utils.time.TimeOfDay;
 import ca.turix.widgets.TimePickerPopup;
 
-// TODO: debug!
+// TODO: persist state
 
-// TODO: Content provider for Dot5Activity
-//       1. data protocol
-//       2. implementation
+// TAI: what if the user selects "some days" from the spinner?
 
 public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
+    
+    @Override
+    public void onConfigurationChanged (Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+    }
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,14 +48,14 @@ public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
 
         m_timeView = (RelativeLayout)findViewById(R.id.time);
         
-        m_setOfDaysAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, 
+        m_setOfDaysAdapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item, 
                 getResources().getStringArray(R.array.day_sets));
-        m_setOfDaysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        m_setOfDaysAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         m_setOfDaysSpinner = (Spinner)findViewById(R.id.set_of_days);
         m_setOfDaysSpinner.setAdapter(m_setOfDaysAdapter);
         m_setOfDaysSpinner.setOnItemSelectedListener(new SetOfDaysSpinnerOnItemSelectedListener());
 
-        m_daysAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice,
+        m_daysAdapter = new ArrayAdapter<String>(this, R.layout.simple_list_item_multiple_choice,
                 getResources().getStringArray(R.array.days));
         m_daysView = (ListView)findViewById(R.id.days);
         m_daysView.setItemsCanFocus(false);
@@ -82,7 +81,7 @@ public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
         int defaultTimeOfDay = getResources().getInteger(R.integer.defaultTimeOfDay);
         for (int i = 0; i < 7; i++)
             m_times[i] = new TimeOfDay(defaultTimeOfDay);
-        m_timesAdapter = new ArrayAdapter<TimeOfDay>(this, android.R.layout.simple_list_item_1, m_times);
+        m_timesAdapter = new ArrayAdapter<TimeOfDay>(this, R.layout.simple_list_item, m_times);
         m_timesView = (ListView)findViewById(R.id.times);
         m_timesView.setItemsCanFocus(false);
         m_timesView.setAdapter(m_timesAdapter);
@@ -133,15 +132,15 @@ public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
         }
         m_sameLengthSelection = defaultLengthIndex;
         
-        m_lengthsAdapter = new ArrayAdapter<LengthOfTime>(this, android.R.layout.simple_list_item_1, m_selectedLengths);
+        m_lengthsAdapter = new ArrayAdapter<LengthOfTime>(this, R.layout.simple_list_item, m_selectedLengths);
         m_lengthsView = (ListView)findViewById(R.id.lengths);
         m_lengthsView.setItemsCanFocus(false);
         m_lengthsView.setAdapter(m_lengthsAdapter);
         m_lengthsView.setOnItemClickListener(new LengthsOnItemClickListener());
 
-        m_chooseLengthAdapter = new ArrayAdapter<LengthOfTime>(this, android.R.layout.simple_spinner_item,
+        m_chooseLengthAdapter = new ArrayAdapter<LengthOfTime>(this, R.layout.simple_spinner_item,
                 m_lengthOptions);
-        m_chooseLengthAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        m_chooseLengthAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         m_lengthSpinner = (Spinner)findViewById(R.id.choose_length);
         m_lengthSpinner.setAdapter(m_chooseLengthAdapter);
         m_lengthSpinner.setOnItemSelectedListener(new LengthSpinnerOnItemSelectedListener());
@@ -150,7 +149,7 @@ public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
     }
 
     private final static int[] DAYSETS_STRING_IDS = new int[] {
-        R.string.everyday, R.string.some_days, R.string.weekdays, R.string.weekends
+        R.string.every_day, R.string.some_days, R.string.weekdays, R.string.weekends
     };
     
     private LengthOfTime[] m_lengthOptions;
@@ -188,7 +187,7 @@ public class D5TimeSetup extends D5Setup implements OnTimeChangedListener {
         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
         {
             switch (DAYSETS_STRING_IDS[pos]) {
-            case R.string.everyday :
+            case R.string.every_day :
                 // OK. hard coding the number of days in a week!
                 for (int itemPos = 0; itemPos < 7; itemPos++)
                     m_daysView.setItemChecked(itemPos, true);

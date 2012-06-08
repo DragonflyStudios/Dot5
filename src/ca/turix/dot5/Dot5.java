@@ -13,7 +13,6 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import ca.turix.dot5.kernel.D5Activity;
 import ca.turix.dot5.kernel.D5Reflower;
-import ca.turix.dot5.kernel.D5Setup;
 import ca.turix.dot5.kernel.D5TextView;
 import ca.turix.dot5.kernel.D5TimeSetup;
 import ca.turix.dot5.read.D5ReadAct;
@@ -26,7 +25,7 @@ public class Dot5 extends Activity {
         { "The Grapes of Wrath", D5ReadSetup.class },
         { "by", null },
         { "John Steinbeck", D5ReadSetup.class },
-        { "everyday", D5TimeSetup.class },
+        { "every day", D5TimeSetup.class },
         { "at", null },
         { "10:30pm", D5TimeSetup.class },
         { "for", null },
@@ -68,7 +67,7 @@ public class Dot5 extends Activity {
         D5TextView[] d5tvs = new D5TextView[size];
         
         for(int i = 0; i < size; i++) {
-            D5TextView d5tv = new D5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends D5Setup>)Dot5Pairs[i][1]);
+            D5TextView d5tv = new D5TextView(this, (String)Dot5Pairs[i][0], (Class<? extends D5Activity>)Dot5Pairs[i][1]);
             d5tv.measure(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             boxWidths[i] = d5tv.getMeasuredWidth();
             d5tvs[i] = d5tv;
@@ -91,7 +90,7 @@ public class Dot5 extends Activity {
             m_mainView.addView(d5tvs[i], frameParams);
         }
         
-        int startNowButtonY = coordinates[size-1].y + lineHeight * 9;
+        int startNowButtonY = coordinates[size-1].y + lineHeight * 6;
         D5TextView startNowButton = new D5TextView(this, getResources().getString(R.string.start_now), (Class<? extends D5Activity>)D5ReadAct.class);
         FrameLayout.LayoutParams buttonLayout = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL);
         buttonLayout.topMargin = startNowButtonY;
@@ -118,8 +117,11 @@ public class Dot5 extends Activity {
        [x] text with action is further underlined
    [x] design a Layout for laying out a sequence of EveryViews ...
    [x] time activity
+   [ ] book activity ... touch to edit ... book title and author name
+       [ ] return back to Dot5 activity
+   [ ] read activity ... terminate the sound?
    [ ] develop a content sharing protocol across the activities
-   [ ] book activity
+
    [ ] develop an XML schema specifying the "sentence"
    [ ] raised background with shadows (see exhibits)
 */
