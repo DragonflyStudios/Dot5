@@ -1,14 +1,37 @@
-- Dot5  activity -- the main activity of the app
+- Dot5 Android Activities
 
--- Present according to a grammar the text pieces through D5TextView the argument and time & day settings for the chosen Dot5 activity 
--- Choose/switch D5Act             ... => D5Choose - default
--- Choose time and day             ... => D5Time   - default
--- Configure the selected activity ... => D5Config - custom
--- Launch activity                 ... => D5Act    - custom
--- Launch other app                ... => ... protocol for specifying app and arguments
+-- Dot5
+--- The main activity of the app, shown whenever it isn't time to act/remind
+--- Present through D5TextViews the settings for the chosen Dot5 activity
+    according to a grammar
+---- The elements are: Dot5What, Dot5How, and Dot5When
+--- "Now" to start doing it immediately
+---- If "Now" is used here, cancels alarm for the day
+
+-- Dot5What
+--- Specify intended action
+--- Configure the intended action
+--- Custom
+
+-- Dot5Which (for future)
+--- Choose available intended actions
+
+-- Dot5When
+--- Time & day to start/remind about the action
+--- 'OK' sets alarm(s)
+
+-- Dot5Pause
+--- Launched when alarm(s) go off
+--- Show reminder: "time to do it!" / "do you want to do it now?"
+--- Options: "Now" & "Later" / "Now" & "Later"
+---- When no more "laters"/"reminders" -- default to 3, show only "Start Now"
+
+-- Dot5Action
+--- Accompanying activity launched from "Now"
+--- or launch another app          ... => ... protocol for specifying app and arguments
 
 
-~~~ Kernel ~~~
+~~~ Kernel design (Android) ~~~
 
 - D5Setup extends Activity implements D5Setting (better name?)
 
@@ -17,17 +40,24 @@
 --- may also need an auxiliary class (inner class of D5Setup) for wrapping the results
 -- a D5Setup subclass should deal with its own data persistence
 
--- D5Time
+-- D5When
 --- extends D5Setup
 --- Configure time ... arguments for alarm clock
 --- Returns an update string-activity pair for display in Dot5 activity
---- No direct interaction with D5Act
+--- No direct interaction with Dot5Action
 
 (TODO)
--- D5Choose extends D5Setup
+-- D5Which extends D5Setup
 --- If there are no alternative activity, then "untouchable" (i.e. no UI for choosing)
 --- Is it possible to get information from the manifest and auto populate the list of supported Dot 5 activities?
---- No direct interaction with D5Act
+--- No direct interaction with Dot5Action
+
+-- D5What extends D5Setup
+--- ...
+
+-- D5How extends D5Setup
+--- Could be launched from D5What
+--- Could also be launched from Dot5
 
 
 ~~~ D5 ___ Activity ~~~
