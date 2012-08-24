@@ -1,0 +1,61 @@
+There are 6 parts:
+
+~~ PROMISING ~~
+
+0. Settings:		Preferences
+0.2 ... Browsing for apps to launch
+
+- Which ... Activity   : Read / Meditate / Run
+- What  ... Argument   : Grapes of Wrath / Duration / 3KM  
+- When  ... Time       : ... 
+- How   ... App/Device : Kindle / Insight Timer / Run Keeper ... Offline ...
+
+
+~~ REMINDING ~~
+
+1. Notifications:	Alarm/Reminder ...
+1.1 AlarmClock ...
+
+
+~~ DOING ~~
+
+2. Doing:		Launch other apps/
+2.1 Launch Kindle ... / Play noise in background ...
+2.2 Launch meditation app
+
+
+~~ MONITORING ~~
+
+3. Records:		Present 
+
+
+~~ SHARING ~~
+
+4. Social Media:	Twitter and Facebook
+
+
+~~ PLEDGING ~~
+
+5. Community:		Pledge/informing/donation/verification
+
+
+
+~~ Waterloo Week ~~
+
+- Finish Settings
+-- Database backed
+
+- Implement Notifications
+
+- Implement Doing
+
+- Implement Records
+
+- Implement Social Media
+
+
+~~ By end of August ~~
+
+- Design Community
+- Implement Community
+

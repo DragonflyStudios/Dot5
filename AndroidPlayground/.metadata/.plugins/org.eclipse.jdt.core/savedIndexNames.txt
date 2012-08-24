@@ -1,3 +1,0 @@
-INDEX VERSION 1.126+/Users/jun/AndroidPlayground/.metadata/.plugins/org.eclipse.jdt.core
-232897600.index
-2747284674.index
