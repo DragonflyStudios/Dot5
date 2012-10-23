@@ -82,6 +82,6 @@
 
 ~~~ Example: Reading ~~~
 
-- D5ReadConfig extends D5Config
+- D5ReadSet extends D5Setup
 - D5ReadAct extends D5Act
 

@@ -25,31 +25,31 @@ NOTES:
 - How (Means Configuration ID) (int)
 
 
-TABLE 2 : Argument Configuration Table:
-Argument_Configuration_ID (int)		Argument_Configuration_Value (string)
+TABLE 2 : Arguments Table:
+Argument_ID (int)		Argument_Value (string)
 	1					"Grape of Wrath"
 	2					"5km"
 	3					"for 20 minutes"
 
 
-TABLE 3 : Time Configuration Table (n rows; for now n=5)
-Time_Configuration_ID (int)	Unique Time Table Name (string)		
-	1				"TC Default"
-	2				"TC Meditate Default"
-	3				"TC Walk Default"
-	4				"TC Read Default"
-	5				"TC Summer Read"
+TABLE 3 : Time Settings Table (n rows; for now n=5)
+Time_Settings_ID (int)	Unique Time Table Name (string)		
+	1			"TS Default"
+	2			"TS Meditate Default"
+	3			"TS Walk Default"
+	4			"TS Read Default"
+	5			"TS Summer Read"
 
 
-TABLE 4 : TC Default
+TABLE 4 : TS Default
 Day_of_week	Reminder/Alarm		Time (long)		Duration (int)
 	1		Alarm		6:30am			30min
 	2		Alarm		6:30am			30min
 	3		Alarm		6:30am			30min
 	4		Alarm		6:30am			30min
 	5		Alarm		6:30am			30min
-	6		Alarm		8:30am			0
-	7		Alarm		8:30am			0
+	6		Alarm		8:30am			0 (for heart's content)
+	7		Alarm		8:30am			0 (for heart's content)
 
 
 TABLE 5 : Means Type Definition Table
@@ -60,10 +60,10 @@ Type_ID (int)     Description (string)		Start App (boolean)
 
 
 TABLE 6 : Means Configuration Table (n rows)
-Means_Configuration_ID (int)	Activity_Type_ID (int)	Means_Type (int)	Extra (string)
+Means_Configuration_ID (int)	Activity_Type_ID (int) (nec?)	Means_Type (int)	APP REF		Extra (string)
 	1				1			2
-	2				1			1		"on bed"
-	3				3			1		"while walking"
-	4				2			3		App URI (Insight Timer)
-	5				3			3		App URI (Run Keeper)
-	6				3			3		App URI (Kindle)
+	2				1			1				"on bed"
+	3				3			1				"while walking"
+	4				2			3		App REF (Insight Timer)
+	5				3			3		App REF (Run Keeper)
+	6				3			3		App REF (Kindle)
